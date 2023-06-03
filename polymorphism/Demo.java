@@ -1,20 +1,17 @@
 package polymorphism;
 
+import java.util.Objects;
+
 public class Demo {
     public static void main(String[] args) {
 
-        User student = new Student("Bhavik", "July 2019", 80);
-
-        User inst = new Instructor("Bhavik", 4.5D, "Nov Intermediate");;
-        inst.login();
-        System.out.println(inst.username);
-        // inst.scheduleClass();
-
-        student.login();
-        System.out.println(student.username);
-//        student.joinClass();
-
-//        Student s = new User("ABC");
+        String s = "ABC";
+        String a = "ABC";
+        String str = new String("ABC");
+        System.out.println(a);
+        str = "ABCD";
+        str = "ABC";
+        str = new String("ABCD");
     }
 
 }
