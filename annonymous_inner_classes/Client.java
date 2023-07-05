@@ -31,6 +31,8 @@ public class Client {
             return x * x;
         };
 
+        new Thread(() -> System.out.println("I am in a thread")).start();
+
         System.out.println(a.a(5));
     }
 }
