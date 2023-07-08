@@ -2,10 +2,7 @@ package streams;
 
 import polymorphism.method_overriding.example_1.A;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -115,8 +112,52 @@ public class Client {
         System.out.println("------------");
         Arrays.asList(1,2,3,4,6,4,5,5,6,7,6,6,6,7).stream().skip(4).distinct().sorted().forEach(System.out::println);
 
-        Stream<Integer> integerStream = Stream.of(1, 2, 45, 56, 5, 6, 7, 8);
+        Stream<Integer> integerStream = Stream.of(1, 2,3,4,5,6);
+        Optional<Integer> opt = integerStream.reduce((a, b) -> a + b);
+        opt.ifPresent(System.out::println);
 
+        boolean anyMatch = Stream.of(1, 2, 3, 4, 5, 6)
+                .anyMatch(x -> {
+                    System.out.println("Checking condition for  " + x);
+                    return x % 2 == 0;
+                });
+        System.out.println(anyMatch);
+
+        boolean allMatch = Stream.of(1, 2, 3, 4, 5, 6)
+                .allMatch(x -> {
+                    System.out.println("Checking condition for  " + x);
+                    return x % 2 == 0;
+                });
+        System.out.println(allMatch);
+
+        boolean noneMatch = Stream.of(1, 2, 3, 4, 5, 6)
+                .noneMatch(x -> {
+                    System.out.println("Checking condition for  " + x);
+                    return x % 2 == 0;
+                });
+        System.out.println(noneMatch);
+
+        Optional<Transaction> first = allTransactions.stream()
+                .filter(x -> x.getType().equals(TransactionType.UPI))
+                .findFirst();
+        if(first.isPresent()){
+            System.out.println("UPI transactions found");
+            Transaction transaction = first.get();
+            System.out.println(transaction);
+        } else {
+            System.out.println("No UPI transactions");
+        }
+
+        Optional<Transaction> any = allTransactions.parallelStream()
+                .filter(x -> x.getType().equals(TransactionType.UPI))
+                .findAny();
+        if(any.isPresent()){
+            System.out.println("UPI transactions found");
+            Transaction transaction = any.get();
+            System.out.println(transaction);
+        } else {
+            System.out.println("No UPI transactions");
+        }
     }
 
 
@@ -124,10 +165,10 @@ public class Client {
         List<Transaction> list = new ArrayList<>();
         list.add(new Transaction(1,200, TransactionType.CC));
         list.add(new Transaction(2,100, TransactionType.DC));
-//        list.add(new Transaction(3,453, TransactionType.UPI));
+        list.add(new Transaction(3,453, TransactionType.UPI));
         list.add(new Transaction(4, 12334, TransactionType.CC));
         list.add(new Transaction(5, 56709, TransactionType.DC));
-//        list.add(new Transaction(6, 82347, TransactionType.UPI));
+        list.add(new Transaction(6, 82347, TransactionType.UPI));
         return list;
     }
 }
