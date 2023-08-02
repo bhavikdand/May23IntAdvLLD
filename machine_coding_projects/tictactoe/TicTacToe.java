@@ -44,7 +44,8 @@ public class TicTacToe {
         }
 
         while(gameController.getGameStatus(game).equals(GameStatus.IN_PROGRESS)){
-
+            gameController.displayBoard(game);
+            gameController.makeMove(game);
         }
 
     }

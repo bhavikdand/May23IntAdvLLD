@@ -6,6 +6,16 @@ public class Cell {
     private int col;
     private CellStatus cellStatus;
 
+
+
+    private Player player;
+
+    public Cell(int row, int col) {
+        this.row = row;
+        this.col = col;
+        this.cellStatus = CellStatus.AVAILABLE;
+    }
+
     public int getRow() {
         return row;
     }
@@ -28,5 +38,14 @@ public class Cell {
 
     public void setCellStatus(CellStatus cellStatus) {
         this.cellStatus = cellStatus;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.cellStatus = CellStatus.OCCUPIED;
     }
 }

@@ -1,5 +1,6 @@
 package machine_coding_projects.tictactoe.models;
 
+import javafx.util.Pair;
 import machine_coding_projects.tictactoe.exceptions.InvalidGameConstructionException;
 
 import java.util.ArrayList;
@@ -33,20 +34,51 @@ public class Game {
         6. Else increment currentPlayerIndex
          */
         Player currentPlayer = players.get(currentPlayerIndex);
-        Cell nextCell = currentPlayer.getNextCell();
+        Pair<Integer, Integer> nextMove = currentPlayer.getNextMove(board);
 
-        if(validateCell(nextCell)){
-            //make the move
-            if(checkForWin()){
-                gameStatus = GameStatus.ENDED;
-            }
-            if(checkForDraw()){
-                gameStatus = GameStatus.DRAW;
-            }
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        while(!validateMove(nextMove)) {
+            System.out.println("Not a valid move, please choose another cell");
+            nextMove = currentPlayer.getNextMove(board);
         }
+        //make the move
+        // 1. Set cell status to Occupied
+        Cell cell = board.getCell(nextMove.getKey(), nextMove.getValue());
+        cell.setPlayer(currentPlayer);
+        // 2. Create a move obj and add it to the list of moves
+        moves.add(new Move(cell, currentPlayer));
+        if(checkForWin()){
+            gameStatus = GameStatus.ENDED;
+            return;
+        }
+        if(checkForDraw()){
+            gameStatus = GameStatus.DRAW;
+            return;
+        }
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 
+    }
 
+    private boolean checkForWin(){
+        return false;
+    }
+
+    private boolean checkForDraw(){
+        return moves.size() == board.getSize() * board.getSize();
+    }
+
+    private boolean validateMove(Pair<Integer, Integer> nextMove){
+        int row = nextMove.getKey();
+        int col = nextMove.getValue();
+        boolean isValidCell = row >= 0 && col >= 0 && row < board.getSize() && col < board.getSize();
+        if(!isValidCell){
+            return false;
+        }
+        Cell cell = board.getCell(row, col);
+        return cell.getCellStatus().equals(CellStatus.AVAILABLE);
+    }
+
+    public void displayBoard(){
+        board.displayBoard();
     }
 
 
