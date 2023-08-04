@@ -22,7 +22,7 @@ public class TicTacToe {
             String name = scanner.next();
             System.out.println("Enter symbol for the player #" + (i+1));
             char symbol = scanner.next().charAt(0);
-            Player player = new Player(name, symbol);
+            Player player = new HumanPlayer(name, symbol);
             players.add(player);
         }
 
@@ -43,8 +43,15 @@ public class TicTacToe {
             return;
         }
 
+        boolean isFirstMove = true;
+
         while(gameController.getGameStatus(game).equals(GameStatus.IN_PROGRESS)){
             gameController.displayBoard(game);
+            if(!isFirstMove){
+                gameController.undo(game);
+            } else {
+                isFirstMove = false;
+            }
             gameController.makeMove(game);
         }
 
@@ -57,6 +64,8 @@ public class TicTacToe {
             System.out.println("Game has drawn!");
         }
 
+        System.out.println("Final board");
+        gameController.displayBoard(game);
 
     }
 }

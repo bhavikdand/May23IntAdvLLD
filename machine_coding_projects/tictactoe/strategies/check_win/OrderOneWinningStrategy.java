@@ -44,10 +44,10 @@ public class OrderOneWinningStrategy implements PlayerWonStrategy{
         boolean cellExistsOnReverseDiagonal = (row + col == n - 1);
 
         if(cellExistsOnDiagonal){
-            diagonal.put(symbol, map.getOrDefault(symbol, 0) + 1);
+            diagonal.put(symbol, diagonal.getOrDefault(symbol, 0) + 1);
         }
         if(cellExistsOnReverseDiagonal){
-            reverseDiagonal.put(symbol, map.getOrDefault(symbol, 0) + 1);
+            reverseDiagonal.put(symbol, reverseDiagonal.getOrDefault(symbol, 0) + 1);
         }
 
         // Updation of the maps end
@@ -58,5 +58,32 @@ public class OrderOneWinningStrategy implements PlayerWonStrategy{
         boolean wonOnReverseDiagonal = cellExistsOnReverseDiagonal && reverseDiagonal.get(symbol) == n;
 
         return wonOnRow || wonOnCol || wonOnDiagonal || wonOnReverseDiagonal;
+    }
+
+    @Override
+    public void handleUndo(Move move) {
+        char symbol = move.getPlayer().getSymbol();
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        //Update the maps
+        Map<Character, Integer> map = rows.get(row);
+        map.put(symbol, map.get(symbol) - 1);
+
+        map = cols.get(col);
+        map.put(symbol, map.get(symbol) - 1);
+
+        boolean cellExistsOnDiagonal = row == col;
+        int n = rows.size();
+        boolean cellExistsOnReverseDiagonal = (row + col == n - 1);
+
+        if(cellExistsOnDiagonal){
+            diagonal.put(symbol, diagonal.get(symbol) - 1);
+        }
+        if(cellExistsOnReverseDiagonal){
+            reverseDiagonal.put(symbol, reverseDiagonal.get(symbol) - 1);
+        }
+
+        // Updation of the maps end
     }
 }

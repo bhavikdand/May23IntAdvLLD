@@ -31,4 +31,8 @@ public class GameController {
     public Player getCurrentPlayer(Game game){
         return game.getCurrentPlayer();
     }
+
+    public void undo(Game game){
+        game.undo();
+    }
 }

@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import machine_coding_projects.tictactoe.exceptions.InvalidGameConstructionException;
 import machine_coding_projects.tictactoe.strategies.check_win.OrderOneWinningStrategy;
 import machine_coding_projects.tictactoe.strategies.check_win.PlayerWonStrategy;
+import machine_coding_projects.tictactoe.utils.MoveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class Game {
         Player currentPlayer = players.get(currentPlayerIndex);
         Pair<Integer, Integer> nextMove = currentPlayer.getNextMove(board);
 
-        while(!validateMove(nextMove)) {
+        while(!MoveUtils.validateMove(nextMove, board)) {
             System.out.println("Not a valid move, please choose another cell");
             nextMove = currentPlayer.getNextMove(board);
         }
@@ -76,21 +77,34 @@ public class Game {
         return moves.size() == board.getSize() * board.getSize();
     }
 
-    private boolean validateMove(Pair<Integer, Integer> nextMove){
-        int row = nextMove.getKey();
-        int col = nextMove.getValue();
-        boolean isValidCell = row >= 0 && col >= 0 && row < board.getSize() && col < board.getSize();
-        if(!isValidCell){
-            return false;
-        }
-        Cell cell = board.getCell(row, col);
-        return cell.getCellStatus().equals(CellStatus.AVAILABLE);
-    }
+
 
     public void displayBoard(){
         board.displayBoard();
     }
 
+    public void undo(){
+        int lastPlayerIndex = (currentPlayerIndex + players.size() -1 ) % players.size();
+        Player lastPlayer = players.get(lastPlayerIndex);
+        if((lastPlayer instanceof HumanPlayer)){
+            // This is a human player, you can ask for undo
+            HumanPlayer hp = (HumanPlayer) lastPlayer;
+            if(hp.undo()){
+                Move lastMove = moves.remove(moves.size() - 1);
+                Cell cell = lastMove.getCell();
+                cell.removePlayer();
+                this.playerWonStrategy.handleUndo(lastMove);
+                currentPlayerIndex = lastPlayerIndex;
+                System.out.println("Board after undo:");
+                displayBoard();
+
+            } else {
+
+            }
+
+        }
+
+    }
 
 
     public static GameBuilder getBuilder(){

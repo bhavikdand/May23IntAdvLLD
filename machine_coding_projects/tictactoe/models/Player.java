@@ -4,7 +4,7 @@ import javafx.util.Pair;
 
 import java.util.Scanner;
 
-public class Player {
+public abstract class Player {
 
     private String name;
     private char symbol;
@@ -14,13 +14,7 @@ public class Player {
         this.symbol = symbol;
     }
 
-    public Pair<Integer, Integer> getNextMove(Board board){
-        System.out.println(name +"'s turn, please enter row and column");
-        Scanner scanner = new Scanner(System.in);
-        int row = scanner.nextInt();
-        int col = scanner.nextInt();
-        return new Pair<>(row, col);
-    }
+    public abstract Pair<Integer, Integer> getNextMove(Board board);
 
     public String getName() {
         return name;
