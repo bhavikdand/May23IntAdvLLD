@@ -1,8 +1,8 @@
 package machine_coding_projects.tictactoe.factories;
 
 import machine_coding_projects.tictactoe.models.BotLevel;
-import machine_coding_projects.tictactoe.strategies.BotPlayingStrategy;
-import machine_coding_projects.tictactoe.strategies.EasyBotPlayingStrategy;
+import machine_coding_projects.tictactoe.strategies.bot_playing.BotPlayingStrategy;
+import machine_coding_projects.tictactoe.strategies.bot_playing.EasyBotPlayingStrategy;
 
 public class BotPlayingStrategyFactory {
 

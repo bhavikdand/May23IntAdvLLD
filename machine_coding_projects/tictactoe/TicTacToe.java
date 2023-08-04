@@ -48,5 +48,15 @@ public class TicTacToe {
             gameController.makeMove(game);
         }
 
+        if(gameController.getGameStatus(game).equals(GameStatus.ENDED)){
+            Player player = gameController.getCurrentPlayer(game);
+            System.out.println(player.getName() + " has won!");
+        }
+
+        if(gameController.getGameStatus(game).equals(GameStatus.DRAW)){
+            System.out.println("Game has drawn!");
+        }
+
+
     }
 }

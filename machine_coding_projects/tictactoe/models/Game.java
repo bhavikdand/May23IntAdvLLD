@@ -2,6 +2,8 @@ package machine_coding_projects.tictactoe.models;
 
 import javafx.util.Pair;
 import machine_coding_projects.tictactoe.exceptions.InvalidGameConstructionException;
+import machine_coding_projects.tictactoe.strategies.check_win.OrderOneWinningStrategy;
+import machine_coding_projects.tictactoe.strategies.check_win.PlayerWonStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +17,15 @@ public class Game {
     private GameStatus gameStatus;
     private List<Move> moves;
 
+    private PlayerWonStrategy playerWonStrategy;
+
     private Game(GameBuilder gameBuilder) {
         this.players = gameBuilder.players;
         this.gameStatus = gameBuilder.gameStatus;
         this.board = gameBuilder.board;
         this.moves = gameBuilder.moves;
         this.currentPlayerIndex = gameBuilder.currentPlayerIndex;
+        this.playerWonStrategy = gameBuilder.playerWonStrategy;
     }
 
 
@@ -45,8 +50,9 @@ public class Game {
         Cell cell = board.getCell(nextMove.getKey(), nextMove.getValue());
         cell.setPlayer(currentPlayer);
         // 2. Create a move obj and add it to the list of moves
-        moves.add(new Move(cell, currentPlayer));
-        if(checkForWin()){
+        Move move = new Move(cell, currentPlayer);
+        moves.add(move);
+        if(checkForWin(move)){
             gameStatus = GameStatus.ENDED;
             return;
         }
@@ -58,8 +64,12 @@ public class Game {
 
     }
 
-    private boolean checkForWin(){
-        return false;
+    private boolean checkForWin(Move move){
+        return playerWonStrategy.hasWon(move);
+    }
+
+    public Player getCurrentPlayer(){
+        return players.get(currentPlayerIndex);
     }
 
     private boolean checkForDraw(){
@@ -114,6 +124,7 @@ public class Game {
         private int currentPlayerIndex;
         private GameStatus gameStatus;
         private List<Move> moves;
+        private PlayerWonStrategy playerWonStrategy;
 
         public Game build() throws InvalidGameConstructionException{
             if(players == null || players.size() == 0){
@@ -123,6 +134,7 @@ public class Game {
             this.currentPlayerIndex = 0;
             this.gameStatus = GameStatus.IN_PROGRESS;
             this.moves = new ArrayList<>();
+            this.playerWonStrategy = new OrderOneWinningStrategy(board.getSize());
             return new Game(this);
         }
 

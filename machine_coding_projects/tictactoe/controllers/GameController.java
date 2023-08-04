@@ -27,4 +27,8 @@ public class GameController {
     public void displayBoard(Game game){
         game.displayBoard();
     }
+
+    public Player getCurrentPlayer(Game game){
+        return game.getCurrentPlayer();
+    }
 }
