@@ -7,6 +7,12 @@ public class GenerateTicketRequestDto {
     private String registrationNumber;
     private String vehicleType;
 
+    public GenerateTicketRequestDto(int gateId, String registrationNumber, String vehicleType) {
+        this.gateId = gateId;
+        this.registrationNumber = registrationNumber;
+        this.vehicleType = vehicleType;
+    }
+
     public int getGateId() {
         return gateId;
     }

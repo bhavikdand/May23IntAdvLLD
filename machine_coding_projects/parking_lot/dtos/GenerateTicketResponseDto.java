@@ -4,23 +4,28 @@ import machine_coding_projects.parking_lot.models.Ticket;
 
 public class GenerateTicketResponseDto {
 
-    public GenerateTicketResponseDto(Ticket ticket, ResponseStatus responseStatus) {
+    public GenerateTicketResponseDto(Ticket ticket, Response response) {
         this.ticket = ticket;
-        this.responseStatus = responseStatus;
+        this.response = response;
     }
 
-    public GenerateTicketResponseDto(ResponseStatus responseStatus) {
-        this.responseStatus = responseStatus;
-    }
 
     private Ticket ticket;
-    private ResponseStatus responseStatus;
+    private Response response;
 
     public static GenerateTicketResponseDto getSuccessResponse(Ticket ticket){
-        return new GenerateTicketResponseDto(ticket, ResponseStatus.SUCCESS);
+        return new GenerateTicketResponseDto(ticket, new Response(ResponseStatus.SUCCESS, "Successfully generated a ticket"));
     }
 
-    public static GenerateTicketResponseDto getFailureResponse(){
-        return new GenerateTicketResponseDto(ResponseStatus.FAILURE);
+    public static GenerateTicketResponseDto getFailureResponse(String message){
+        return new GenerateTicketResponseDto(null, new Response(ResponseStatus.FAILURE, message));
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public String getMessage(){
+        return response.getMessage();
     }
 }

@@ -9,13 +9,17 @@ public class TicketController {
 
     private TicketService ticketService;
 
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
     // POST /ticket
     public GenerateTicketResponseDto generateTicket(GenerateTicketRequestDto requestDto){
         try {
             Ticket ticket = ticketService.generateTicket(requestDto.getGateId(), requestDto.getRegistrationNumber(), requestDto.getVehicleType());
             return GenerateTicketResponseDto.getSuccessResponse(ticket);
         } catch (Exception e){
-            return GenerateTicketResponseDto.getFailureResponse();
+            return GenerateTicketResponseDto.getFailureResponse(e.getMessage());
         }
     }
 }

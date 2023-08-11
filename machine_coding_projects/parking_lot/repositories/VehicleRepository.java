@@ -9,7 +9,7 @@ import java.util.Map;
 public class VehicleRepository {
 
     private Map<Integer, Vehicle> map;
-    private static int id = 1;
+    private static int id = 0;
 
     public VehicleRepository(Map<Integer, Vehicle> map) {
         this.map = map;

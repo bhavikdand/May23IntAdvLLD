@@ -6,6 +6,14 @@ public class Gate extends BaseModel {
     private ParkingAttendant parkingAttendant;
     private GateType gateType;
 
+    public Gate(int id, String name, GateStatus gateStatus, ParkingAttendant parkingAttendant, GateType gateType) {
+        super(id);
+        this.name = name;
+        this.gateStatus = gateStatus;
+        this.parkingAttendant = parkingAttendant;
+        this.gateType = gateType;
+    }
+
     public String getName() {
         return name;
     }

@@ -18,4 +18,15 @@ public class Ticket extends BaseModel{
         this.gate = gate;
         this.parkingAttendant = parkingAttendant;
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "vehicle=" + vehicle +
+                ", entryTime=" + entryTime +
+                ", parkingSpot=" + parkingSpot +
+                ", gate=" + gate +
+                ", parkingAttendant=" + parkingAttendant +
+                '}';
+    }
 }

@@ -5,6 +5,16 @@ import java.util.List;
 
 public class ParkingLot extends BaseModel{
 
+    public ParkingLot(int id, List<ParkingFloor> parkingFloors, List<Gate> gates, String name, String address, Date startTime, Date endTime) {
+        super(id);
+        this.parkingFloors = parkingFloors;
+        this.gates = gates;
+        this.name = name;
+        this.address = address;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     private List<ParkingFloor> parkingFloors;
     private List<Gate> gates;
     private String name;

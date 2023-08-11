@@ -8,6 +8,10 @@ public class VehicleService {
 
     private VehicleRepository vehicleRepository;
 
+    public VehicleService(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
+    }
+
     public Vehicle insertIfNotExists(String registrationNumber, VehicleType vehicleType){
         Vehicle vehicle = this.vehicleRepository.getVehicleByRegistrationNumber(registrationNumber);
         if(vehicle == null){
