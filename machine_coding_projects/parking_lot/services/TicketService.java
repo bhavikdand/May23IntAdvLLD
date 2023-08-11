@@ -47,4 +47,8 @@ public class TicketService {
 
     }
 
+    public Ticket getTicketById(int ticketId){
+        return this.ticketRepository.getTicketById(ticketId);
+    }
+
 }

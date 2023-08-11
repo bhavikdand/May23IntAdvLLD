@@ -77,5 +77,8 @@ public class ParkingLotRunner {
         generateTicketResponseDto = ticketController.generateTicket(generateTicketRequestDto);
         System.out.println(generateTicketResponseDto.getMessage());
 
+
+        // TODO insert dummy data for slabs, inject appropriate dependencies, and create invoice
+
     }
 }

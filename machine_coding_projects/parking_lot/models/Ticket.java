@@ -29,4 +29,24 @@ public class Ticket extends BaseModel{
                 ", parkingAttendant=" + parkingAttendant +
                 '}';
     }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public Date getEntryTime() {
+        return entryTime;
+    }
+
+    public ParkingSpot getParkingSpot() {
+        return parkingSpot;
+    }
+
+    public Gate getGate() {
+        return gate;
+    }
+
+    public ParkingAttendant getParkingAttendant() {
+        return parkingAttendant;
+    }
 }

@@ -28,4 +28,8 @@ public class TicketRepository {
         map.put(ID, ticket);
         return ticket;
     }
+
+    public Ticket getTicketById(int ticketId){
+        return map.get(ticketId);
+    }
 }
