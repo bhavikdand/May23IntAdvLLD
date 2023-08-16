@@ -23,7 +23,7 @@ public class WeekendPricingStrategy implements PricingStrategy{
         int hoursSpent = DateTimeUtils.calculateHours(entryTime, exitTime);
         double amount = 0;
         for (Slab slab : slabs) {
-            if(hoursSpent > slab.getEndHour()) { // this means we have consumed entire slab
+            if(hoursSpent > slab.getEndHour() && slab.getEndHour() != -1) { // this means we have consumed entire slab
                 amount += (slab.getEndHour() - slab.getStartHour()) * slab.getPrice();
             }
             else if(slab.getEndHour() == -1 || hoursSpent <= slab.getEndHour()){
