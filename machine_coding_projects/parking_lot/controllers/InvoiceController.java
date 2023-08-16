@@ -7,6 +7,10 @@ public class InvoiceController {
 
     private InvoiceService invoiceService;
 
+    public InvoiceController(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }
+
     //TODO refactor this to use DTOs
     public Invoice createInvoice(int ticketId, int gateId){
         try {

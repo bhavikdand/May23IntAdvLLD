@@ -19,4 +19,24 @@ public class Invoice extends BaseModel{
         this.exitTime = exitTime;
         this.amount = amount;
     }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public Gate getGate() {
+        return gate;
+    }
+
+    public ParkingAttendant getParkingAttendant() {
+        return parkingAttendant;
+    }
+
+    public Date getExitTime() {
+        return exitTime;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
 }

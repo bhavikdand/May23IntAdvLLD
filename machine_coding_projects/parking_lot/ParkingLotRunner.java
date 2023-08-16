@@ -1,17 +1,15 @@
 package machine_coding_projects.parking_lot;
 
+import machine_coding_projects.parking_lot.controllers.InvoiceController;
 import machine_coding_projects.parking_lot.controllers.TicketController;
 import machine_coding_projects.parking_lot.dtos.GenerateTicketRequestDto;
 import machine_coding_projects.parking_lot.dtos.GenerateTicketResponseDto;
+import machine_coding_projects.parking_lot.factories.PricingStrategyFactory;
 import machine_coding_projects.parking_lot.models.*;
-import machine_coding_projects.parking_lot.repositories.GateRepository;
-import machine_coding_projects.parking_lot.repositories.ParkingLotRepository;
-import machine_coding_projects.parking_lot.repositories.TicketRepository;
-import machine_coding_projects.parking_lot.repositories.VehicleRepository;
-import machine_coding_projects.parking_lot.services.GateService;
-import machine_coding_projects.parking_lot.services.ParkingLotService;
-import machine_coding_projects.parking_lot.services.TicketService;
-import machine_coding_projects.parking_lot.services.VehicleService;
+import machine_coding_projects.parking_lot.repositories.*;
+import machine_coding_projects.parking_lot.services.*;
+import machine_coding_projects.parking_lot.strategies.pricing_strategy.WeekdayPricingStrategy;
+import machine_coding_projects.parking_lot.strategies.pricing_strategy.WeekendPricingStrategy;
 import machine_coding_projects.parking_lot.strategies.spot_assignment_strategy.NearestFirstParkingAssignmentStrategy;
 
 import java.util.*;
@@ -66,7 +64,7 @@ public class ParkingLotRunner {
 
         GenerateTicketRequestDto generateTicketRequestDto = new GenerateTicketRequestDto(1, "KA 05 123", VehicleType.CAR.name());
         GenerateTicketResponseDto generateTicketResponseDto = ticketController.generateTicket(generateTicketRequestDto);
-        Ticket ticket = generateTicketResponseDto.getTicket();
+        Ticket ticket1 = generateTicketResponseDto.getTicket();
         System.out.println(generateTicketResponseDto.getMessage());
 
         generateTicketRequestDto = new GenerateTicketRequestDto(1, "KA 05 1234", VehicleType.CAR.name());
@@ -78,7 +76,18 @@ public class ParkingLotRunner {
         System.out.println(generateTicketResponseDto.getMessage());
 
 
-        // TODO insert dummy data for slabs, inject appropriate dependencies, and create invoice
+        InvoiceRepository invoiceRepository = new InvoiceRepository();
+        SlabRepository slabRepository = new SlabRepository(new HashMap<Integer, Slab>(){{
+            put(1, new Slab(1, 0, 2, 20, VehicleType.CAR));
+            put(2, new Slab(2, 2, 4, 15, VehicleType.CAR));
+            put(3, new Slab(3, 4, 8, 10, VehicleType.CAR));
+            put(4, new Slab(4, 8, -1, 20, VehicleType.CAR));
+        }});
+        PricingStrategyFactory pricingStrategyFactory = new PricingStrategyFactory(new WeekendPricingStrategy(slabRepository), new WeekdayPricingStrategy());
+        InvoiceService invoiceService = new InvoiceService(ticketService, gateService, invoiceRepository, pricingStrategyFactory);
 
+        InvoiceController invoiceController = new InvoiceController(invoiceService);
+        Invoice invoice = invoiceController.createInvoice(ticket1.getId(), ticket1.getGate().getId());
+        System.out.println(invoice.getAmount());
     }
 }
